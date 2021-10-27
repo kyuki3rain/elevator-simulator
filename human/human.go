@@ -33,19 +33,62 @@ func NewArray(currentFloors []*floor.Floor, targetFloor []*floor.Floor) []*Human
 
 func (h *Human) Ride(elevator *elevator.Elevator) {
 	h.Elevator = elevator
-	h.Elevator.People += 1
+	h.Elevator.People++
+	h.Elevator.AddTargetFloor(h.TargetFloor)
 }
 
-func (h *Human) Push() {
-	if h.CurrentFloor.Compare(h.TargetFloor) {
-		h.CurrentFloor.PushUp()
-	} else {
-		h.CurrentFloor.PushDown()
+func (h *Human) Push(es []*elevator.Elevator) {
+	switch h.CurrentFloor.Compare(h.TargetFloor) {
+	case 1:
+		if !h.CurrentFloor.Up {
+			var nearElevator *elevator.Elevator
+			h.CurrentFloor.Up = true
+			for i := range es {
+				if !es[i].IsWorking() || (es[i].Up() && h.CurrentFloor.Compare(es[i].TargetFloors[len(es[i].TargetFloors)-1]) != -1) {
+					if nearElevator == nil || nearElevator.Height < es[i].Height {
+						nearElevator = es[i]
+					}
+				}
+			}
+
+			nearElevator.AddTargetFloor(h.CurrentFloor)
+		}
+		return
+	case 0:
+		return
+	case -1:
+		if !h.CurrentFloor.Down {
+			var nearElevator *elevator.Elevator
+			h.CurrentFloor.Down = true
+			for i := range es {
+				if !es[i].IsWorking() || (es[i].Down() && h.CurrentFloor.Compare(es[i].TargetFloors[len(es[i].TargetFloors)-1]) != 1) {
+					if nearElevator == nil || nearElevator.Height > es[i].Height {
+						nearElevator = es[i]
+					}
+				}
+			}
+
+			nearElevator.AddTargetFloor(h.CurrentFloor)
+		}
+		return
 	}
 }
 
+func (h *Human) Arrival() bool {
+	return h.CurrentFloor == h.TargetFloor
+}
+
 func (h *Human) Step(elevators []*elevator.Elevator) {
+	if h.Arrival() {
+		if h.Elevator != nil {
+			h.Elevator.People--
+			h.Elevator = nil
+		}
+		return
+	}
+
 	if h.Elevator != nil {
+		h.CurrentFloor = h.Elevator.CurrentFloor
 		return
 	}
 
@@ -56,5 +99,5 @@ func (h *Human) Step(elevators []*elevator.Elevator) {
 		}
 	}
 
-	h.Push()
+	h.Push(elevators)
 }

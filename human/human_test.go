@@ -35,7 +35,7 @@ func TestStep(t *testing.T) {
 	ftestsdown := []bool{false, false, false, false, false}
 
 	for i, f := range floors {
-		if f.Up() == ftestsup[i] && f.Down() == ftestsdown[i] {
+		if f.Up == ftestsup[i] && f.Down == ftestsdown[i] {
 			continue
 		}
 

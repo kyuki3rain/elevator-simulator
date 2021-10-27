@@ -2,3 +2,11 @@ https://qiita.com/NorsteinBekkler/items/b2418cd5e14a52189d19
 https://code.visualstudio.com/docs/remote/containers#_sharing-git-credentials-with-your-container
 http://psychedelicnekopunch.com/archives/1780
 https://golang.hateblo.jp/entry/2019/10/07/171630
+https://qiita.com/quicksort/items/c9522793a941edf074fd
+https://inabajunmr.hatenablog.com/entry/2019/11/07/093217
+https://blog.junkata.com/posts/go-map-for-random
+https://qiita.com/egnr-in-6matroom/items/282aa2fd117aab9469bd
+https://qiita.com/crifff/items/b116e6235fedcd18e0de
+https://blog.y-yuki.net/entry/2017/05/06/000000
+https://developer.fyne.io/tour/binding/simple
+http://psychedelicnekopunch.com/archives/2013
