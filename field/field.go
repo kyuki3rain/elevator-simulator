@@ -105,10 +105,6 @@ func (f *Field) String() string {
 }
 
 func (f *Field) Draw() {
-	f.Visualize()
-}
-
-func (f *Field) Visualize() {
 	var keys []int
 	strings := map[int]string{}
 	elevInfo := ""
