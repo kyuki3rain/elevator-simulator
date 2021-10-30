@@ -19,6 +19,7 @@
 # 例
 ```bash
 ./elevator-simulator --time 1000 --floor 15 --elev 10 --rate 5.0 --max 20 --sleep 10
+./elevator-simulator -t 1000 -f 15 -e 10 -r 5.0 -m 20 -s 10
 ```
 
 windowsの場合はcmdから実行できます。
