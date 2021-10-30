@@ -118,6 +118,10 @@ func (e *Elevator) IsSaturated() bool {
 func (e *Elevator) AddTargetFloor(f *floor.Floor) {
 	status := e.CurrentFloor.Compare(f)
 
+	if status == 0 {
+		return
+	}
+
 	switch e.Status {
 	case Up:
 		if status == Down {
@@ -150,6 +154,7 @@ func removeDuplicate1(args []*floor.Floor) []*floor.Floor {
 
 func (e *Elevator) Step() {
 	if e.IsStoped {
+		e.CurrentFloor.Arrive(e.Status)
 		if e.Counter >= e.Wait {
 			if e.Status == NotWorking {
 				return
@@ -159,10 +164,6 @@ func (e *Elevator) Step() {
 			e.IsStoped = false
 		} else {
 			e.Counter++
-
-			if e.Counter == e.Wait {
-				e.CurrentFloor.Arrive(e.Status)
-			}
 		}
 		return
 	}

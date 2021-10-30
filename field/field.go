@@ -87,9 +87,9 @@ func (f *Field) String() string {
 	for _, e := range f.Elevators {
 		out.WriteString(e.String())
 	}
-	for _, h := range f.Humans {
-		out.WriteString(h.String())
-	}
+	// for _, h := range f.Humans {
+	// 	out.WriteString(h.String())
+	// }
 
 	return out.String()
 }
@@ -101,6 +101,7 @@ func (f *Field) Draw() {
 func (f *Field) Visualize() {
 	var keys []int
 	strings := map[int]string{}
+	elevInfo := ""
 
 	for _, fl := range f.Floors {
 		strings[fl.Number] = strconv.Itoa(fl.Number)
@@ -142,16 +143,31 @@ func (f *Field) Visualize() {
 			}
 			strings[k] += "|"
 		}
+		elevInfo += " "
+		elevInfo += strconv.Itoa(e.People)
 	}
 
 	for i, j := 0, len(keys)-1; i < j; i, j = i+1, j-1 {
 		keys[i], keys[j] = keys[j], keys[i]
 	}
 
+	people := map[int]int{}
 	for _, h := range f.Humans {
 		if h.CurrentFloor == h.TargetFloor {
-			strings[h.CurrentFloor.Number] += "○"
-		} else if h.Elevator == nil {
+			if i, ok := people[h.CurrentFloor.Number]; ok {
+				people[h.CurrentFloor.Number] = i + 1
+			} else {
+				people[h.CurrentFloor.Number] = 0
+			}
+		}
+	}
+	for _, k := range keys {
+		strings[k] += " "
+		strings[k] += strconv.Itoa(people[k])
+		strings[k] += " "
+	}
+	for _, h := range f.Humans {
+		if h.Elevator == nil && h.CurrentFloor != h.TargetFloor {
 			strings[h.CurrentFloor.Number] += "*"
 		}
 	}
@@ -164,6 +180,9 @@ func (f *Field) Visualize() {
 		out.WriteString(strings[k])
 		out.WriteString("\n")
 	}
+	out.WriteString("   ")
+	out.WriteString(elevInfo)
+	out.WriteString("\n")
 	out.WriteString("\n")
 
 	str := out.String()

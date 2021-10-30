@@ -68,24 +68,30 @@ func (h *Human) Push(es []*elevator.Elevator) {
 	switch h.CurrentFloor.Compare(h.TargetFloor) {
 	case 1:
 		if !h.CurrentFloor.Up {
-			h.CurrentFloor.Up = true
 			for i := range es {
-				if es[i].Status == elevator.NotWorking || (es[i].Status == elevator.Up && es[i].Height <= h.CurrentFloor.Height) {
+				if es[i].Status == elevator.NotWorking || (es[i].Status == elevator.Up && es[i].Height < h.CurrentFloor.Height) {
 					if nearElevator == nil || math.Abs(float64(nearElevator.Height-h.CurrentFloor.Height)) < math.Abs(float64(es[i].Height-h.CurrentFloor.Height)) {
 						nearElevator = es[i]
 					}
 				}
 			}
+
+			if nearElevator != nil {
+				h.CurrentFloor.Up = true
+			}
 		}
 	case -1:
 		if !h.CurrentFloor.Down {
-			h.CurrentFloor.Down = true
 			for i := range es {
-				if es[i].Status == elevator.NotWorking || (es[i].Status == elevator.Down && es[i].Height >= h.CurrentFloor.Height) {
+				if es[i].Status == elevator.NotWorking || (es[i].Status == elevator.Down && es[i].Height > h.CurrentFloor.Height) {
 					if nearElevator == nil || math.Abs(float64(nearElevator.Height-h.CurrentFloor.Height)) > math.Abs(float64(es[i].Height-h.CurrentFloor.Height)) {
 						nearElevator = es[i]
 					}
 				}
+			}
+
+			if nearElevator != nil {
+				h.CurrentFloor.Down = true
 			}
 		}
 	}
@@ -93,7 +99,6 @@ func (h *Human) Push(es []*elevator.Elevator) {
 	if nearElevator == nil {
 		return
 	}
-
 	nearElevator.AddTargetFloor(h.CurrentFloor)
 }
 
