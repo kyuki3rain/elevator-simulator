@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"os"
+	"os/signal"
 	"sort"
 	"strconv"
 	"time"
@@ -38,11 +40,19 @@ func New(start int, end int, freq float64) *Field {
 }
 
 func (f *Field) Loop(sleep time.Duration) {
-	for t := f.start; t < f.end; t++ {
-		f.Time = t
-		f.Step()
-		time.Sleep(time.Millisecond * sleep)
-	}
+	go func() {
+		for t := f.start; t < f.end; t++ {
+			f.Time = t
+			f.Step()
+			time.Sleep(time.Millisecond * sleep)
+		}
+		os.Exit(0)
+	}()
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+	fmt.Println(f.String())
 }
 
 func (f *Field) Step() {

@@ -1,10 +1,6 @@
 package main
 
 import (
-	"fmt"
-	"os"
-	"os/signal"
-
 	"github.com/kyuki3rain/elevator-simulator/elevator"
 	"github.com/kyuki3rain/elevator-simulator/field"
 	"github.com/kyuki3rain/elevator-simulator/floor"
@@ -20,14 +16,5 @@ func main() {
 
 	f.Time = 0
 	f.Draw()
-
-	go func() {
-		f.Loop(10)
-		os.Exit(0)
-	}()
-
-	quit := make(chan os.Signal)
-	signal.Notify(quit, os.Interrupt)
-	<-quit
-	fmt.Println(f.String())
+	f.Loop(10)
 }
