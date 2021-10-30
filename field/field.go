@@ -40,12 +40,16 @@ func New(start int, end int, freq float64) *Field {
 }
 
 func (f *Field) Loop(sleep time.Duration) {
+	for t := f.start; t < f.end; t++ {
+		f.Time = t
+		f.Step()
+		time.Sleep(time.Millisecond * sleep)
+	}
+}
+
+func (f *Field) LoopWithTest(sleep time.Duration) {
 	go func() {
-		for t := f.start; t < f.end; t++ {
-			f.Time = t
-			f.Step()
-			time.Sleep(time.Millisecond * sleep)
-		}
+		f.Loop(sleep)
 		os.Exit(0)
 	}()
 
@@ -97,9 +101,9 @@ func (f *Field) String() string {
 	for _, e := range f.Elevators {
 		out.WriteString(e.String())
 	}
-	// for _, h := range f.Humans {
-	// 	out.WriteString(h.String())
-	// }
+	for _, h := range f.Humans {
+		out.WriteString(h.String())
+	}
 
 	return out.String()
 }
