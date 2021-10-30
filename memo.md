@@ -10,3 +10,4 @@ https://qiita.com/crifff/items/b116e6235fedcd18e0de
 https://blog.y-yuki.net/entry/2017/05/06/000000
 https://developer.fyne.io/tour/binding/simple
 http://psychedelicnekopunch.com/archives/2013
+https://stackoverflow.com/questions/41503758/conversion-of-time-duration-type-microseconds-value-to-milliseconds
