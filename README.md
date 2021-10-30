@@ -2,12 +2,19 @@
 
 # オプション
   -e, --elev int     elevatorNumber option (default 5) エレベータの個数。
+
   -f, --floor int    floorNumber option (default 10) 建物の階数。
+
   -h, --help         help for elevator-simulator
+
   -m, --max int      elevatorMaxPeople option (default 10) エレベータに乗れる最大人数。
+
   -r, --rate float   createHumanRate option (default 1) 人の生成速度。数字を大きくすると増えやすくなる。
+
   -s, --sleep int    sleep option (default 100) 一ステップごとの待機時間（ミリ秒）。
+
   -t, --time int     endTime option (default 100) 最大ステップ数。
+
 
 # 例
 ```bash
