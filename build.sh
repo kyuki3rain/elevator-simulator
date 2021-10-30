@@ -1,8 +1,8 @@
 #/bin/bash
 
-REREASE=`0.3.3`
+REREASE="0.3.3"
 
-git tag -a v$REREASE -m `version $REREASE`
+git tag -a v$REREASE -m "version $REREASE"
 git push origin v$REREASE
 GOOS=windows GOARCH=amd64 go build -o ./build/elevator-simulator-$REREASE-amd64-windows/
 GOOS=darwin GOARCH=arm64 go build -o ./build/elevator-simulator-$REREASE-arm64-darwin/
