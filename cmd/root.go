@@ -68,7 +68,7 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().IntVarP(&o.endTime, "time", "t", 100, "endTime option")
-	rootCmd.Flags().Float64VarP(&o.rate, "rate", "r", 1.0, "rate option")
+	rootCmd.Flags().Float64VarP(&o.rate, "rate", "r", 1.0, "createHumanRate option")
 	rootCmd.Flags().IntVarP(&o.floorNumber, "floor", "f", 10, "floorNumber option")
 	rootCmd.Flags().IntVarP(&o.elevatorNumber, "elev", "e", 5, "elevatorNumber option")
 	rootCmd.Flags().IntVarP(&o.elevatorMaxPeople, "max", "m", 10, "elevatorMaxPeople option")
