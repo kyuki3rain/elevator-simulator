@@ -16,55 +16,55 @@ func TestUp(t *testing.T) {
 	f.Humans = human.NewArray([]*floor.Floor{f.Floors[0]}, []*floor.Floor{f.Floors[1]})
 
 	f.Draw()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], nil, f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 1
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, true, 1) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, true, 1) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 2
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, true, 2) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, true, 2) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 3
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 4
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 3, []*floor.Floor{f.Floors[1]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 3, []*floor.Floor{f.Floors[1]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 5
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], true) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 6
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{}, true, 1) || !testHuman(t, f.Humans[0], nil, true) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{}, true, 1) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 7
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{}, true, 2) || !testHuman(t, f.Humans[0], nil, true) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{}, true, 2) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 8
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{}, true, 2) || !testHuman(t, f.Humans[0], nil, true) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{}, true, 2) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 }
@@ -77,55 +77,55 @@ func TestDown(t *testing.T) {
 	f.Humans = human.NewArray([]*floor.Floor{f.Floors[1]}, []*floor.Floor{f.Floors[0]})
 
 	f.Draw()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 1
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, true, 1) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, true, 1) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 2
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, true, 2) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, true, 2) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 3
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 4
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 2, []*floor.Floor{f.Floors[0]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 2, []*floor.Floor{f.Floors[0]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 5
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], true) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 6
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 1) || !testHuman(t, f.Humans[0], nil, true) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 1) || !testHuman(t, f.Humans[0], nil, f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 7
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 2) || !testHuman(t, f.Humans[0], nil, true) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 2) || !testHuman(t, f.Humans[0], nil, f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 8
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 2) || !testHuman(t, f.Humans[0], nil, true) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 2) || !testHuman(t, f.Humans[0], nil, f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 }
@@ -138,73 +138,73 @@ func TestUpButton(t *testing.T) {
 	f.Humans = human.NewArray([]*floor.Floor{f.Floors[0]}, []*floor.Floor{f.Floors[1]})
 
 	f.Draw()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], nil, f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 1
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{f.Floors[0]}, true, 1) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], true, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{f.Floors[0]}, true, 1) || !testHuman(t, f.Humans[0], nil, f.Floors[0]) || !testFloor(t, f.Floors[0], true, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 2
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{f.Floors[0]}, true, 2) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], true, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{f.Floors[0]}, true, 2) || !testHuman(t, f.Humans[0], nil, f.Floors[0]) || !testFloor(t, f.Floors[0], true, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 3
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{f.Floors[0]}, false, 0) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], true, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{f.Floors[0]}, false, 0) || !testHuman(t, f.Humans[0], nil, f.Floors[0]) || !testFloor(t, f.Floors[0], true, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 4
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 2, []*floor.Floor{f.Floors[0]}, false, 0) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], true, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 2, []*floor.Floor{f.Floors[0]}, false, 0) || !testHuman(t, f.Humans[0], nil, f.Floors[0]) || !testFloor(t, f.Floors[0], true, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 5
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, true, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], true, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, true, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testFloor(t, f.Floors[0], true, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 6
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, true, 1) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, true, 1) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testFloor(t, f.Floors[0], true, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 7
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, true, 2) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, true, 2) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 8
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 9
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 3, []*floor.Floor{f.Floors[1]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 3, []*floor.Floor{f.Floors[1]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 10
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], true) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 11
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{}, true, 1) || !testHuman(t, f.Humans[0], nil, true) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 0, 5, []*floor.Floor{}, true, 1) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 }
@@ -217,73 +217,73 @@ func TestDownButton(t *testing.T) {
 	f.Humans = human.NewArray([]*floor.Floor{f.Floors[1]}, []*floor.Floor{f.Floors[0]})
 
 	f.Draw()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 1
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{f.Floors[1]}, true, 1) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{f.Floors[1]}, true, 1) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
 		return
 	}
 
 	f.Time = 2
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{f.Floors[1]}, true, 2) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{f.Floors[1]}, true, 2) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
 		return
 	}
 
 	f.Time = 3
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{f.Floors[1]}, false, 0) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{f.Floors[1]}, false, 0) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
 		return
 	}
 
 	f.Time = 4
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 3, []*floor.Floor{f.Floors[1]}, false, 0) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 3, []*floor.Floor{f.Floors[1]}, false, 0) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
 		return
 	}
 
 	f.Time = 5
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, true, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, true, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
 		return
 	}
 
 	f.Time = 6
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, true, 1) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, true, 1) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
 		return
 	}
 
 	f.Time = 7
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, true, 2) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, true, 2) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 8
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 9
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 2, []*floor.Floor{f.Floors[0]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 2, []*floor.Floor{f.Floors[0]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 10
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], true) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 11
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 1) || !testHuman(t, f.Humans[0], nil, true) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 1) || !testHuman(t, f.Humans[0], nil, f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 }
@@ -296,30 +296,91 @@ func TestTwoElevator(t *testing.T) {
 	f.Humans = human.NewArray([]*floor.Floor{f.Floors[1]}, []*floor.Floor{f.Floors[0]})
 
 	f.Draw()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
 	f.Time = 1
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{f.Floors[1]}, true, 1) || !testElevator(t, f.Elevators[1], f.Floors[0], 0, 0, []*floor.Floor{}, true, 1) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{f.Floors[1]}, true, 1) || !testElevator(t, f.Elevators[1], f.Floors[0], 0, 0, []*floor.Floor{}, true, 1) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
 		return
 	}
 
 	f.Time = 2
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{f.Floors[1]}, true, 2) || !testElevator(t, f.Elevators[1], f.Floors[0], 0, 0, []*floor.Floor{}, true, 2) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{f.Floors[1]}, true, 2) || !testElevator(t, f.Elevators[1], f.Floors[0], 0, 0, []*floor.Floor{}, true, 2) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
 		return
 	}
 
 	f.Time = 3
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{f.Floors[1]}, false, 0) || !testElevator(t, f.Elevators[1], f.Floors[0], 0, 0, []*floor.Floor{}, true, 2) || !testHuman(t, f.Humans[0], nil, false) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{f.Floors[1]}, false, 0) || !testElevator(t, f.Elevators[1], f.Floors[0], 0, 0, []*floor.Floor{}, true, 2) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
 		return
 	}
 }
 
-func testHuman(t *testing.T, Human *human.Human, Elevator *elevator.Elevator, Arrival bool) bool {
+func TestTwoHuman(t *testing.T) {
+	f := New(1, 12, 0)
+
+	f.Floors = floor.NewArray([]int{1, 2, 3}, []int{0, 5, 10})
+	f.Elevators = elevator.NewArray([]*floor.Floor{f.Floors[0]}, []int{1})
+	f.Humans = human.NewArray([]*floor.Floor{f.Floors[0], f.Floors[1]}, []*floor.Floor{f.Floors[1], f.Floors[2]})
+
+	f.Draw()
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 0, 0, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], nil, f.Floors[0]) || !testHuman(t, f.Humans[1], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) || !testFloor(t, f.Floors[2], false, false) {
+		return
+	}
+
+	f.Time = 1
+	f.Step()
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, true, 1) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testHuman(t, f.Humans[1], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], true, false) || !testFloor(t, f.Floors[2], false, false) {
+		return
+	}
+
+	f.Time = 2
+	f.Step()
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, true, 2) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testHuman(t, f.Humans[1], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], true, false) || !testFloor(t, f.Floors[2], false, false) {
+		return
+	}
+
+	f.Time = 3
+	f.Step()
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testHuman(t, f.Humans[1], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], true, false) || !testFloor(t, f.Floors[2], false, false) {
+		return
+	}
+
+	f.Time = 4
+	f.Step()
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 3, []*floor.Floor{f.Floors[1]}, false, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testHuman(t, f.Humans[1], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], true, false) || !testFloor(t, f.Floors[2], false, false) {
+		return
+	}
+
+	f.Time = 5
+	f.Step()
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{}, true, 0) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[1]) || !testHuman(t, f.Humans[1], nil, f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], true, false) || !testFloor(t, f.Floors[2], false, false) {
+		return
+	}
+
+	f.Time = 6
+	f.Step()
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[2]}, true, 1) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testHuman(t, f.Humans[1], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], true, false) || !testFloor(t, f.Floors[2], false, false) {
+		return
+	}
+
+	f.Time = 7
+	f.Step()
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[2]}, true, 2) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testHuman(t, f.Humans[1], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) || !testFloor(t, f.Floors[2], false, false) {
+		return
+	}
+
+	f.Time = 8
+	f.Step()
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[2]}, false, 0) || !testHuman(t, f.Humans[0], nil, f.Floors[1]) || !testHuman(t, f.Humans[1], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) || !testFloor(t, f.Floors[2], false, false) {
+		return
+	}
+}
+
+func testHuman(t *testing.T, Human *human.Human, Elevator *elevator.Elevator, CurrentFloor *floor.Floor) bool {
 	r := true
 
 	if Human.Elevator != Elevator {
@@ -336,8 +397,8 @@ func testHuman(t *testing.T, Human *human.Human, Elevator *elevator.Elevator, Ar
 		}
 		r = false
 	}
-	if Human.Arrival() != Arrival {
-		t.Errorf("Arrival expect=%t, got=%t\n", Arrival, Human.Arrival())
+	if Human.CurrentFloor != CurrentFloor {
+		t.Errorf("CurrentFloor expect=%d, got=%d\n", CurrentFloor.Number, Human.CurrentFloor.Number)
 		r = false
 	}
 

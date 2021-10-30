@@ -1,0 +1,3 @@
+@startuml elesim
+  Hello <|-- World
+@enduml

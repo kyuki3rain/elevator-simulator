@@ -1,5 +1,11 @@
 package floor
 
+import (
+	"bytes"
+	"fmt"
+	"strconv"
+)
+
 type Floor struct {
 	Number    int
 	UpFloor   *Floor
@@ -7,6 +13,25 @@ type Floor struct {
 	Up        bool
 	Down      bool
 	Height    int
+}
+
+func (f *Floor) String() string {
+	var out bytes.Buffer
+
+	out.WriteString(fmt.Sprintf("%s階", strconv.Itoa(f.Number)))
+	out.WriteString("\n")
+	out.WriteString("上ボタン：")
+	out.WriteString(strconv.FormatBool(f.Up))
+	out.WriteString("\n")
+	out.WriteString("下ボタン：")
+	out.WriteString(strconv.FormatBool(f.Down))
+	out.WriteString("\n")
+	out.WriteString("高さ：")
+	out.WriteString(strconv.Itoa(f.Height))
+	out.WriteString("\n")
+	out.WriteString("\n")
+
+	return out.String()
 }
 
 func New(number int, height int) *Floor {
@@ -50,6 +75,7 @@ func (f *Floor) IsLow(height int) bool {
 
 func (f *Floor) PushUp() {
 	f.Up = true
+
 }
 func (f *Floor) PushDown() {
 	f.Down = true
@@ -58,9 +84,6 @@ func (f *Floor) Arrive(status int) {
 	switch status {
 	case 1:
 		f.Up = false
-	case 0:
-		f.Up = false
-		f.Down = false
 	case -1:
 		f.Down = false
 	}

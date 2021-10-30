@@ -3,6 +3,7 @@ package field
 import (
 	"bytes"
 	"fmt"
+	"math"
 	"math/rand"
 	"sort"
 	"strconv"
@@ -21,32 +22,38 @@ type Field struct {
 	end       int
 	Time      int
 
-	rate float64
-	mode int
+	freq float64
 }
 
-func New(start int, end int, rate float64) *Field {
+func New(start int, end int, freq float64) *Field {
 	rand.Seed(time.Now().UnixMicro())
 	f := &Field{}
 
 	f.start = start
 	f.end = end
 	f.Time = start
-	f.rate = rate
+	f.freq = freq
 
 	return f
 }
 
-func (f *Field) Loop() {
+func (f *Field) Loop(sleep time.Duration) {
 	for t := f.start; t < f.end; t++ {
 		f.Time = t
-		fmt.Printf("a\n")
 		f.Step()
-		time.Sleep(time.Second * 1)
+		time.Sleep(time.Millisecond * sleep)
 	}
 }
 
 func (f *Field) Step() {
+	defer func() {
+		err := recover()
+		if err != nil {
+			fmt.Println("Recover!:", err)
+			fmt.Println(f.String())
+		}
+	}()
+
 	for _, e := range f.Elevators {
 		e.Step()
 	}
@@ -61,15 +68,30 @@ func (f *Field) Step() {
 
 func (f *Field) NewHuman() {
 	rand.Seed(time.Now().UnixNano())
-	if rand.Float64() < f.rate {
+	for i := 0; i < int(math.Abs(rand.NormFloat64())*f.freq); i++ {
 		var cfl, tfl int
 		cfl = rand.Intn(len(f.Floors))
 		tfl = rand.Intn(len(f.Floors))
 		for tfl == cfl {
 			tfl = rand.Intn(len(f.Floors))
 		}
-		f.Humans = append(f.Humans, human.New(f.Floors[cfl], f.Floors[tfl]))
+		f.Humans = append(f.Humans, human.New(f.Floors[cfl], f.Floors[tfl], f.Humans[len(f.Humans)-1].Number+1))
 	}
+}
+
+func (f *Field) String() string {
+	var out bytes.Buffer
+	for _, fl := range f.Floors {
+		out.WriteString(fl.String())
+	}
+	for _, e := range f.Elevators {
+		out.WriteString(e.String())
+	}
+	for _, h := range f.Humans {
+		out.WriteString(h.String())
+	}
+
+	return out.String()
 }
 
 func (f *Field) Draw() {
@@ -108,9 +130,9 @@ func (f *Field) Visualize() {
 					} else {
 						strings[k] += strconv.Itoa(e.Wait - e.Counter)
 					}
-				} else if e.Up() {
+				} else if e.Status == elevator.Up {
 					strings[k] += "↑"
-				} else if e.Down() {
+				} else if e.Status == elevator.Down {
 					strings[k] += "↓"
 				} else {
 					strings[k] += " "
@@ -127,7 +149,7 @@ func (f *Field) Visualize() {
 	}
 
 	for _, h := range f.Humans {
-		if h.Arrival() {
+		if h.CurrentFloor == h.TargetFloor {
 			strings[h.CurrentFloor.Number] += "○"
 		} else if h.Elevator == nil {
 			strings[h.CurrentFloor.Number] += "*"
@@ -142,7 +164,8 @@ func (f *Field) Visualize() {
 		out.WriteString(strings[k])
 		out.WriteString("\n")
 	}
+	out.WriteString("\n")
 
 	str := out.String()
-	fmt.Printf(str)
+	fmt.Print(str)
 }

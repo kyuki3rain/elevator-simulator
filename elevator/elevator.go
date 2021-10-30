@@ -1,7 +1,10 @@
 package elevator
 
 import (
+	"bytes"
+	"fmt"
 	"sort"
+	"strconv"
 
 	"github.com/kyuki3rain/elevator-simulator/floor"
 )
@@ -16,8 +19,54 @@ type Elevator struct {
 	Height       int
 	CurrentFloor *floor.Floor
 	TargetFloors []*floor.Floor
-	IsStoped     bool
 	Counter      int
+	Status       int
+	IsStoped     bool
+}
+
+const (
+	Up         = 1
+	NotWorking = 0
+	Down       = -1
+)
+
+func (e *Elevator) String() string {
+	var out bytes.Buffer
+
+	out.WriteString(fmt.Sprintf("%d番エレベータ\n", e.Number))
+	out.WriteString("人数：")
+	out.WriteString(strconv.Itoa(e.People))
+	out.WriteString("\n")
+	out.WriteString("高さ：")
+	out.WriteString(strconv.Itoa(e.Height))
+	out.WriteString("\n")
+	out.WriteString("現在地：")
+	out.WriteString(fmt.Sprintf("%s階", strconv.Itoa(e.CurrentFloor.Number)))
+	out.WriteString("\n")
+	out.WriteString("停止予定：")
+	for i := range e.TargetFloors {
+		if i != 0 {
+			out.WriteString(", ")
+		}
+		out.WriteString(fmt.Sprintf("%s階", strconv.Itoa(e.TargetFloors[i].Number)))
+	}
+	out.WriteString("\n")
+	out.WriteString("状態：")
+	switch e.Status {
+	case Up:
+		out.WriteString("上昇")
+	case NotWorking:
+		out.WriteString("無し")
+	case Down:
+		out.WriteString("下降")
+	}
+	if e.IsStoped {
+		out.WriteString(", 停車中")
+	}
+	out.WriteString("\n")
+	out.WriteString("\n")
+
+	return out.String()
 }
 
 func New(currentFloor *floor.Floor, capacity int, number int) *Elevator {
@@ -29,6 +78,7 @@ func New(currentFloor *floor.Floor, capacity int, number int) *Elevator {
 	e.speed = 3
 	e.Number = number
 	e.Wait = 2
+	e.Status = NotWorking
 	e.IsStoped = true
 
 	return e
@@ -44,90 +94,111 @@ func NewArray(currentFloors []*floor.Floor, capacities []int) []*Elevator {
 	return elevators
 }
 
-func (e *Elevator) Arrival(status int) bool {
-	switch status {
-	case 1:
-		return e.TargetFloors[0].IsHigh(e.Height)
-	case -1:
-		return e.TargetFloors[0].IsLow(e.Height)
+func (e *Elevator) Arrival() bool {
+	switch e.Status {
+	case Up:
+		return e.TargetFloors[0].Height <= e.Height
+	case NotWorking:
+		return true
+	case Down:
+		return e.TargetFloors[len(e.TargetFloors)-1].Height >= e.Height
 	}
 
 	return true
 }
 
-func (e *Elevator) IsWorking() bool {
-	return len(e.TargetFloors) != 0
+func (e *Elevator) NoTarget() bool {
+	return len(e.TargetFloors) == 0
 }
 
 func (e *Elevator) IsSaturated() bool {
 	return e.People == e.capacity
 }
 
-func (e *Elevator) Up() bool {
-	if e.IsStoped {
-		return false
-	}
-	return e.CurrentFloor.Compare(e.TargetFloors[0]) == 1
-}
-func (e *Elevator) Down() bool {
-	if e.IsStoped {
-		return false
-	}
-	return e.CurrentFloor.Compare(e.TargetFloors[0]) == -1
-}
-
 func (e *Elevator) AddTargetFloor(f *floor.Floor) {
-	if e.Up() {
-		if e.CurrentFloor.Compare(f) == 1 {
-			return
+	status := e.CurrentFloor.Compare(f)
+
+	switch e.Status {
+	case Up:
+		if status == Down {
+			panic("add down target to up elevator")
 		}
-	} else if e.Down() {
-		if e.CurrentFloor.Compare(f) == -1 {
-			return
+	case NotWorking:
+		e.Status = status
+	case Down:
+		if status == Up {
+			panic("add up target to down elevator")
 		}
 	}
 
 	e.TargetFloors = append(e.TargetFloors, f)
+	e.TargetFloors = removeDuplicate1(e.TargetFloors)
 	sort.Slice(e.TargetFloors, func(i, j int) bool { return e.TargetFloors[i].Compare(e.TargetFloors[j]) == 1 })
+}
+
+func removeDuplicate1(args []*floor.Floor) []*floor.Floor {
+	results := make([]*floor.Floor, 0, len(args))
+	encountered := map[int]bool{}
+	for i := 0; i < len(args); i++ {
+		if !encountered[args[i].Number] {
+			encountered[args[i].Number] = true
+			results = append(results, args[i])
+		}
+	}
+	return results
 }
 
 func (e *Elevator) Step() {
 	if e.IsStoped {
-		if e.IsWorking() {
-			e.CurrentFloor.Arrive(e.CurrentFloor.Compare(e.TargetFloors[0]))
-		}
-		e.CurrentFloor.Arrive(0)
 		if e.Counter >= e.Wait {
-			if len(e.TargetFloors) == 0 {
-				e.IsStoped = true
+			if e.Status == NotWorking {
 				return
 			}
+
 			e.Counter = 0
 			e.IsStoped = false
 		} else {
 			e.Counter++
+
+			if e.Counter == e.Wait {
+				e.CurrentFloor.Arrive(e.Status)
+			}
 		}
 		return
 	}
 
-	status := e.CurrentFloor.Compare(e.TargetFloors[0])
-
-	switch status {
-	case 1:
+	switch e.Status {
+	case Up:
 		e.Height += e.speed
-		if e.CurrentFloor.UpFloor.Height <= e.Height {
+		for e.CurrentFloor.UpFloor != nil && e.CurrentFloor.UpFloor.Height <= e.Height {
 			e.CurrentFloor = e.CurrentFloor.UpFloor
 		}
-	case -1:
+		if e.Arrival() {
+			e.Height = e.CurrentFloor.Height
+			for !e.NoTarget() && e.TargetFloors[0] == e.CurrentFloor {
+				e.TargetFloors = e.TargetFloors[1:]
+			}
+			e.IsStoped = true
+		}
+	case Down:
 		e.Height -= e.speed
-		if e.CurrentFloor.DownFloor.Height >= e.Height {
+		for e.CurrentFloor.DownFloor != nil && e.CurrentFloor.DownFloor.Height >= e.Height {
 			e.CurrentFloor = e.CurrentFloor.DownFloor
+		}
+		if e.Arrival() {
+			e.Height = e.CurrentFloor.Height
+			for !e.NoTarget() && e.TargetFloors[len(e.TargetFloors)-1] == e.CurrentFloor {
+				if len(e.TargetFloors) == 1 {
+					e.TargetFloors = []*floor.Floor{}
+				} else {
+					e.TargetFloors = e.TargetFloors[:len(e.TargetFloors)-2]
+				}
+			}
+			e.IsStoped = true
 		}
 	}
 
-	if e.Arrival(status) {
-		e.Height = e.CurrentFloor.Height
-		e.IsStoped = true
-		e.TargetFloors = e.TargetFloors[1:]
+	if e.NoTarget() {
+		e.Status = NotWorking
 	}
 }
