@@ -71,10 +71,18 @@ func CreateRangeSlice(start int, end int, step int) []int {
 }
 
 func (f *Field) Loop(sleep int) {
-	for t := f.start; t < f.end; t++ {
-		f.Time = t
-		f.Step()
-		time.Sleep(time.Millisecond * time.Duration(sleep))
+	if f.end == 0 {
+		for t := f.start; true; t++ {
+			f.Time = t
+			f.Step()
+			time.Sleep(time.Millisecond * time.Duration(sleep))
+		}
+	} else {
+		for t := f.start; t < f.end; t++ {
+			f.Time = t
+			f.Step()
+			time.Sleep(time.Millisecond * time.Duration(sleep))
+		}
 	}
 }
 
