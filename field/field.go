@@ -27,27 +27,58 @@ type Field struct {
 	freq float64
 }
 
-func New(start int, end int, freq float64) *Field {
+func New(start int, end int, rate float64, fl int, el int, max int, sleep int) *Field {
 	rand.Seed(time.Now().UnixMicro())
 	f := &Field{}
 
 	f.start = start
 	f.end = end
 	f.Time = start
-	f.freq = freq
+	f.freq = rate
+
+	f.Floors = floor.NewArray(CreateRangeSlice(1, fl, 1), CreateRangeSlice(0, (fl-1)*5, 5))
+	f.Elevators = elevator.NewArray(CreateFloorSlice(el, f.Floors[0]), CreateNumberSlice(el, max))
+	f.Humans = human.NewArray([]*floor.Floor{f.Floors[0]}, []*floor.Floor{f.Floors[fl-1]})
 
 	return f
 }
 
-func (f *Field) Loop(sleep time.Duration) {
+func CreateFloorSlice(num int, fl *floor.Floor) []*floor.Floor {
+	var res []*floor.Floor
+	for i := 0; i < num; i++ {
+		res = append(res, fl)
+	}
+
+	return res
+}
+
+func CreateNumberSlice(num int, t int) []int {
+	var res []int
+	for i := 0; i < num; i++ {
+		res = append(res, t)
+	}
+
+	return res
+}
+
+func CreateRangeSlice(start int, end int, step int) []int {
+	var res []int
+	for i := start; i <= end; i += step {
+		res = append(res, i)
+	}
+
+	return res
+}
+
+func (f *Field) Loop(sleep int) {
 	for t := f.start; t < f.end; t++ {
 		f.Time = t
 		f.Step()
-		time.Sleep(time.Millisecond * sleep)
+		time.Sleep(time.Millisecond * time.Duration(sleep))
 	}
 }
 
-func (f *Field) LoopWithTest(sleep time.Duration) {
+func (f *Field) LoopWithTest(sleep int) {
 	go func() {
 		f.Loop(sleep)
 		os.Exit(0)
@@ -114,7 +145,12 @@ func (f *Field) Draw() {
 	elevInfo := ""
 
 	for _, fl := range f.Floors {
-		strings[fl.Number] = strconv.Itoa(fl.Number)
+		if fl.Number < 10 {
+			strings[fl.Number] = " "
+		} else {
+			strings[fl.Number] = ""
+		}
+		strings[fl.Number] += strconv.Itoa(fl.Number)
 		strings[fl.Number] += " "
 		if fl.Up {
 			strings[fl.Number] += "↑"
@@ -190,7 +226,7 @@ func (f *Field) Draw() {
 		out.WriteString(strings[k])
 		out.WriteString("\n")
 	}
-	out.WriteString("   ")
+	out.WriteString("      ")
 	out.WriteString(elevInfo)
 	out.WriteString("\n")
 	out.WriteString("\n")

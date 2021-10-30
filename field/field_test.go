@@ -9,7 +9,7 @@ import (
 )
 
 func TestUp(t *testing.T) {
-	f := New(1, 20, 0)
+	f := New(1, 20, 0, 2, 1, 1, 0)
 
 	f.Floors = floor.NewArray([]int{1, 2}, []int{0, 5})
 	f.Elevators = elevator.NewArray([]*floor.Floor{f.Floors[0]}, []int{1})
@@ -70,7 +70,7 @@ func TestUp(t *testing.T) {
 }
 
 func TestDown(t *testing.T) {
-	f := New(1, 20, 0)
+	f := New(1, 20, 0, 2, 1, 1, 0)
 
 	f.Floors = floor.NewArray([]int{1, 2}, []int{0, 5})
 	f.Elevators = elevator.NewArray([]*floor.Floor{f.Floors[1]}, []int{1})
@@ -131,7 +131,7 @@ func TestDown(t *testing.T) {
 }
 
 func TestUpButton(t *testing.T) {
-	f := New(1, 12, 0)
+	f := New(1, 20, 0, 2, 1, 1, 0)
 
 	f.Floors = floor.NewArray([]int{1, 2}, []int{0, 5})
 	f.Elevators = elevator.NewArray([]*floor.Floor{f.Floors[1]}, []int{1})
@@ -174,7 +174,7 @@ func TestUpButton(t *testing.T) {
 
 	f.Time = 6
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, true, 1) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testFloor(t, f.Floors[0], true, false) || !testFloor(t, f.Floors[1], false, false) {
+	if !testElevator(t, f.Elevators[0], f.Floors[0], 1, 0, []*floor.Floor{f.Floors[1]}, true, 1) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[0]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
@@ -210,7 +210,7 @@ func TestUpButton(t *testing.T) {
 }
 
 func TestDownButton(t *testing.T) {
-	f := New(1, 12, 0)
+	f := New(1, 20, 0, 2, 1, 1, 0)
 
 	f.Floors = floor.NewArray([]int{1, 2}, []int{0, 5})
 	f.Elevators = elevator.NewArray([]*floor.Floor{f.Floors[0]}, []int{1})
@@ -253,7 +253,7 @@ func TestDownButton(t *testing.T) {
 
 	f.Time = 6
 	f.Step()
-	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, true, 1) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, true) {
+	if !testElevator(t, f.Elevators[0], f.Floors[1], 1, 5, []*floor.Floor{f.Floors[0]}, true, 1) || !testHuman(t, f.Humans[0], f.Elevators[0], f.Floors[1]) || !testFloor(t, f.Floors[0], false, false) || !testFloor(t, f.Floors[1], false, false) {
 		return
 	}
 
@@ -289,7 +289,7 @@ func TestDownButton(t *testing.T) {
 }
 
 func TestTwoElevator(t *testing.T) {
-	f := New(1, 12, 0)
+	f := New(1, 20, 0, 2, 1, 1, 0)
 
 	f.Floors = floor.NewArray([]int{1, 2}, []int{0, 5})
 	f.Elevators = elevator.NewArray([]*floor.Floor{f.Floors[0], f.Floors[0]}, []int{1, 1})
@@ -320,7 +320,7 @@ func TestTwoElevator(t *testing.T) {
 }
 
 func TestTwoHuman(t *testing.T) {
-	f := New(1, 12, 0)
+	f := New(1, 20, 0, 2, 1, 1, 0)
 
 	f.Floors = floor.NewArray([]int{1, 2, 3}, []int{0, 5, 10})
 	f.Elevators = elevator.NewArray([]*floor.Floor{f.Floors[0]}, []int{1})
