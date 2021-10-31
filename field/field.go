@@ -116,7 +116,7 @@ func (f *Field) Step() {
 	}
 
 	f.NewHuman()
-	f.Draw()
+	f.Visualize()
 }
 
 func (f *Field) NewHuman() {
@@ -147,7 +147,7 @@ func (f *Field) String() string {
 	return out.String()
 }
 
-func (f *Field) Draw() {
+func (f *Field) Visualize() string {
 	var keys []int
 	strings := map[int]string{}
 	elevInfo := ""
@@ -239,6 +239,5 @@ func (f *Field) Draw() {
 	out.WriteString("\n")
 	out.WriteString("\n")
 
-	str := out.String()
-	fmt.Print(str)
+	return out.String()
 }
