@@ -116,7 +116,7 @@ func (f *Field) Step() {
 	}
 
 	f.NewHuman()
-	f.Visualize()
+	fmt.Println(f.Visualize())
 }
 
 func (f *Field) NewHuman() {
