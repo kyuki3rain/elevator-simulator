@@ -1,6 +1,6 @@
 #/bin/bash
 
-REREASE="0.3.4"
+REREASE="0.3.5"
 
 git tag -a v$REREASE -m "version $REREASE"
 git push origin v$REREASE

@@ -15,7 +15,9 @@ limitations under the License.
 */
 package main
 
-import "github.com/kyuki3rain/elevator-simulator/cmd"
+import (
+	"github.com/kyuki3rain/elevator-simulator/cmd"
+)
 
 func main() {
 	cmd.Execute()

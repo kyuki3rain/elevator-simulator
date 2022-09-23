@@ -71,10 +71,18 @@ func CreateRangeSlice(start int, end int, step int) []int {
 }
 
 func (f *Field) Loop(sleep int) {
-	for t := f.start; t < f.end; t++ {
-		f.Time = t
-		f.Step()
-		time.Sleep(time.Millisecond * time.Duration(sleep))
+	if f.end == 0 {
+		for t := f.start; true; t++ {
+			f.Time = t
+			f.Step()
+			time.Sleep(time.Millisecond * time.Duration(sleep))
+		}
+	} else {
+		for t := f.start; t < f.end; t++ {
+			f.Time = t
+			f.Step()
+			time.Sleep(time.Millisecond * time.Duration(sleep))
+		}
 	}
 }
 
@@ -108,7 +116,7 @@ func (f *Field) Step() {
 	}
 
 	f.NewHuman()
-	f.Draw()
+	fmt.Println(f.Visualize())
 }
 
 func (f *Field) NewHuman() {
@@ -139,7 +147,7 @@ func (f *Field) String() string {
 	return out.String()
 }
 
-func (f *Field) Draw() {
+func (f *Field) Visualize() string {
 	var keys []int
 	strings := map[int]string{}
 	elevInfo := ""
@@ -231,6 +239,5 @@ func (f *Field) Draw() {
 	out.WriteString("\n")
 	out.WriteString("\n")
 
-	str := out.String()
-	fmt.Print(str)
+	return out.String()
 }
